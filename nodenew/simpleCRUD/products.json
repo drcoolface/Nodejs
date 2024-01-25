@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "waiwai",
+    "price": 233,
+    "quantity": 3,
+    "description": null,
+    "product_type": "food"
+  },
+  {
+    "id": 2,
+    "name": "whatmassn",
+    "price": 233,
+    "quantity": 99,
+    "description": null,
+    "product_type": "food"
+  },
+  {
+    "id": 3,
+    "name": "newprod",
+    "price": 233,
+    "quantity": 3,
+    "description": null,
+    "product_type": "food"
+  },
+  {
+    "id": 4,
+    "name": "waiwai",
+    "price": 233,
+    "quantity": 3,
+    "description": null,
+    "product_type": "food"
+  }
+]
