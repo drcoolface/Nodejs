@@ -75,7 +75,6 @@ app.put("/products/:id", async (req, res) => {
   }
 });
 
-
 app.delete('/delete', async (req, res) => {
   try {
       const productIdToDelete = parseInt(req.params.id); // Assuming you send the product ID in the request body
