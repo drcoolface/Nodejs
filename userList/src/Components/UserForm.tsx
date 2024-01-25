@@ -44,7 +44,7 @@ const UserForm: React.FC<ISubmitForm> = ({onFinish}) => {
       const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault; 
         form.validateFields().then((values: UserType) => {
-          console.log('Form values are:', values); // Log form values for debugging
+
           onFinish(values);
           form.resetFields(); 
           setIsPasswordGenerated(false); 
