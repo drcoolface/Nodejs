@@ -1,34 +1,33 @@
-[
-  {
+[{
     "id": 1,
     "name": "waiwai",
     "price": 233,
     "quantity": 3,
-    "description": null,
+    "description": "who",
     "product_type": "food"
   },
   {
     "id": 2,
-    "name": "whatmassn",
+    "name": "car",
     "price": 233,
     "quantity": 99,
-    "description": null,
-    "product_type": "food"
+    "description": "who",
+    "product_type": "object"
   },
   {
     "id": 3,
-    "name": "newprod",
+    "name": "bike",
     "price": 233,
     "quantity": 3,
-    "description": null,
-    "product_type": "food"
+    "description": "who",
+    "product_type": "object"
   },
   {
     "id": 4,
-    "name": "waiwai",
+    "name": "moomo",
     "price": 233,
     "quantity": 3,
-    "description": null,
+    "description": "who",
     "product_type": "food"
   }
 ]

@@ -30,20 +30,32 @@ app.post("/create", async (req, res) => {
     }
 });
 
-app.get('/products',  async (req, res) => {
-    try {
+app.get('/products', async (req, res) => {
+  try {
+    
       // Read data from the products.json file
-      const data =  await fs.readFile('products.json', 'utf-8');
-  
-      // Parse the JSON data
-      const products = JSON.parse(data);
-        console.log(products)
-      // Send the products as a JSON response
+      let products = await readProductsFile();
+      // Get query parameters from the request
+
+      const { search, sort } = req.query;
+
+      // Filter products by name/description
+      if (search) {
+          const searchQuery = search.toLowerCase();
+          products = products.filter(product => product.name.toLowerCase().includes(searchQuery) || product.description?.toLowerCase().includes(searchQuery));
+      }
+
+      // Sort products by product type
+      if (sort === 'type') {
+          products.sort((a, b) => a.product_type.localeCompare(b.product_type));
+      }
+
+      // Send the filtered and sorted products as a JSON response
       res.status(200).json(products);
-    } catch (error) {
+  } catch (error) {
       console.error('Error reading the file:', error);
       res.status(500).send('Internal Server Error');
-    }
+  }
 });
 
 app.put("/products/:id", async (req, res) => {
@@ -130,7 +142,24 @@ app.patch('/updateQuantity/:id', async (req, res) => {
   }
 });
 
+app.get('/outofstock',  async(req, res) => {
+  try {
+      // Read data from the products.json file with 'utf8' encoding
+      const data =  await fs.readFile('products.json', 'utf8');
 
+      // Parse the JSON data
+      const products = JSON.parse(data);
+
+      // Filter products with quantity less than 5
+      const outOfStockProducts = products.filter(product => product.quantity < 5);
+
+      // Send the filtered products as a JSON response
+      res.status(200).json(outOfStockProducts);
+  } catch (error) {
+      console.error('Error reading the file:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
 
 app.listen(port, ()=>console.log('Server has started on', port))
 
