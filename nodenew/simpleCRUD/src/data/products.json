@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "name": "waiwai",
+    "price": 233,
+    "quantity": 3,
+    "description": "who",
+    "product_type": "food"
+  },
+  {
+    "id": 2,
+    "name": "car",
+    "price": 233,
+    "quantity": 99,
+    "description": "who",
+    "product_type": "object"
+  },
+  {
+    "id": 3,
+    "name": "bike",
+    "price": 233,
+    "quantity": 3,
+    "description": "who",
+    "product_type": "object"
+  },
+  {
+    "id": 4,
+    "name": "moomo",
+    "price": 233,
+    "quantity": 3,
+    "description": "who",
+    "product_type": "food"
+  },
+  {
+    "id": 5,
+    "name": "mercedes",
+    "price": 23233,
+    "quantity": 425,
+    "description": "car luxury ",
+    "product_type": "vehicewele"
+  },
+  {
+    "id": 6,
+    "name": "mercedes benz",
+    "price": 3,
+    "quantity": 45,
+    "description": "car luxury2 ",
+    "product_type": "vehicle"
+  },
+  {
+    "id": 7,
+    "name": "rolls royce",
+    "price": 399999,
+    "quantity": 425,
+    "description": "car luxury3 ",
+    "product_type": "vehicle"
+  },
+  {
+    "id": 8,
+    "name": "macbook",
+    "price": 10000,
+    "quantity": 235,
+    "description": "a good laptop to code ",
+    "product_type": "computer"
+  }
+]

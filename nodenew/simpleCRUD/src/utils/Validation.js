@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
- 
+// const filePath = '../data/products.json'
  
  const productType = {
     id :{
@@ -50,15 +50,20 @@ const isProductExists = (products, productId) => {
 };
 
 
-const readProductsFile = async () => {
+const readFile = async (filePath) => {
     try {
-        const existingData = await fs.readFile('products.json', 'utf8');
+        const existingData = await fs.readFile(filePath, 'utf8');
         return JSON.parse(existingData);
     } catch (error) {
         console.error('Error reading or parsing existing data:', error);
         throw new Error('Internal Server Error');
     }
 };
-module.exports = {validateProduct, isProductExists, readProductsFile}
+
+const writeFile =  async(data, filePath)=> {
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+
+}
+module.exports = {validateProduct, isProductExists, readFile, writeFile}
 
 
