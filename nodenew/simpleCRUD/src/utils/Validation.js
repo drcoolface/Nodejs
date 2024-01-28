@@ -28,26 +28,53 @@ const fs = require('fs').promises;
     },
 };
 
+const UserType = {
+  id :{
+      type: Number,
+      required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: Number,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: false,
+  },
+  phoneNumber:{
+      type: String,
+      required : true,
+  },
+};
 
- const validateProduct = (product) => {
-    for (const key in productType) {
-      const { type, required } = productType[key];
-      const value = product[key];
+
+const validateEntity = (entity, entityType) => {
+  const typeDefinition = entityType === 'product' ? productType : UserType;
   
+  for (const key in typeDefinition) {
+      const { type, required } = typeDefinition[key];
+      const value = entity[key];
+      
       if (required && (value === undefined || value === null)) {
-        throw new Error(`${key} is required.`);
+          throw new Error(`${key} is required.`);
       }
 
       if (type && typeof value !== type.name.toLowerCase()) {
-        throw new Error(`${key} must be of type ${type.name}.`);
+          throw new Error(`${key} must be of type ${type.name}.`);
       }
-    }
+  }
   
-    return true;
+  return true;
 }
-const isProductExists = (products, productId) => {
-  return products.some(product => product.id === productId);
+
+const doesEntityExist = (entities, entityId) => {
+  return entities.some(entity => entity.id === entityId);
 };
+
 
 
 const readFile = async (filePath) => {
@@ -64,6 +91,6 @@ const writeFile =  async(data, filePath)=> {
   await fs.writeFile(filePath, JSON.stringify(data, null, 2));
 
 }
-module.exports = {validateProduct, isProductExists, readFile, writeFile}
+module.exports = {validateEntity, doesEntityExist, readFile, writeFile}
 
 
