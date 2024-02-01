@@ -51,25 +51,59 @@ const UserType = {
   },
 };
 
+const OrderType = {
+  userId: {
+    type: Number,
+    required: true,
+  },
+  productId: {
+    type: Number,
+    required: true,
+  },
+  productQuantity:{
+    type: Number,
+    required : true,
+  },
+  totalPrice: {
+    type: Number,
+    required: true,
+  },
+  
+};
 
 const validateEntity = (entity, entityType) => {
-  const typeDefinition = entityType === 'product' ? productType : UserType;
+  let typeDefinition;
+  
+  switch (entityType) {
+    case 'product':
+      typeDefinition = productType;
+      break;
+    case 'user':
+      typeDefinition = UserType;
+      break;
+    case 'order':
+      typeDefinition = OrderType;
+      break;
+    default:
+      throw new Error(`Invalid entityType: ${entityType}`);
+  }
   
   for (const key in typeDefinition) {
-      const { type, required } = typeDefinition[key];
-      const value = entity[key];
-      
-      if (required && (value === undefined || value === null)) {
-          throw new Error(`${key} is required.`);
-      }
+    const { type, required } = typeDefinition[key];
+    const value = entity[key];
+    
+    if (required && (value === undefined || value === null)) {
+      throw new Error(`${key} is required.`);
+    }
 
-      if (type && typeof value !== type.name.toLowerCase()) {
-          throw new Error(`${key} must be of type ${type.name}.`);
-      }
+    if (type && typeof value !== type.name.toLowerCase()) {
+      throw new Error(`${key} must be of type ${type.name}.`);
+    }
   }
   
   return true;
 }
+
 
 const doesEntityExist = (entities, entityId) => {
   return entities.some(entity => entity.id === entityId);
