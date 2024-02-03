@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const orderController = require('../controllers/orderController');
+require('dotenv').config();
 
-router.post('/', orderController.createOrder);
-router.get('/', orderController.getOrder);
+const environment = process.env.NODE_ENV ;
+const OrderController = require(`../controllers/${environment}/orderController`)
+const CartController = require(`../controllers/${environment}/cartController`)
 
+
+
+router.post('/cart/:id', CartController.addToCart).get('/cart/:id', CartController.getCart);
+router.get('/checkout/:id', OrderController.checkOut).get('/', OrderController.getOrders);
 module.exports = router;

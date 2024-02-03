@@ -1,14 +1,15 @@
 
-const { validateEntity, doesEntityExist, readFile, writeFile } = require('../utils/Validation');
+
+const { validateEntity, doesEntityExist, readFile, writeFile } = require('../../utils/Validation');
 const fs = require('fs').promises;
-const filePath = '/Users/mahesh/developer/Nodeprac/nodenew/simpleCRUD/src/data/products.json';
+const filePath = '/Users/mahesh/developer/Nodeprac/nodenew/simpleCRUD/src/data/products.json'
 
 const ProductController = {
 
   async createProduct(req, res) {
     const productData = req.body;
     try {
-      validateEntity(productData); 
+      validateEntity(productData, "product"); 
       const existingProducts = await readFile(filePath);
       if (doesEntityExist(existingProducts, productData.id)) {
         return res.status(400).send('Product with the same ID already exists');
@@ -51,7 +52,7 @@ const ProductController = {
     const updatedProductData = req.body;
 
     try {
-      validateEntity(updatedProductData);
+      validateEntity(updatedProductData, "product");
 
       let existingProducts = await readFile(filePath);
 

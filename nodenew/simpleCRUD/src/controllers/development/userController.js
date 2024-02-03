@@ -1,14 +1,14 @@
 
-const { validateEntity, doesEntityExist, readFile, writeFile } = require('../utils/Validation');
+const { validateEntity, doesEntityExist, readFile, writeFile } = require('../../utils/Validation');
 const fs = require('fs').promises;
-const filePath = '/Users/mahesh/developer/Nodeprac/nodenew/simpleCRUD/src/data/users.json';
+const filePath = '/Users/mahesh/developer/Nodeprac/nodenew/simpleCRUD/src/data/users.json'
 
 const UserController = {
 
   async createUser(req, res) {
     const userData = req.body;
     try {
-      validateEntity(userData); 
+      validateEntity(userData, "user"); 
       const existingUsers = await readFile(filePath);
       if (doesEntityExist(existingUsers, userData.id)) {
         return res.status(400).send('User with the same ID already exists');
@@ -51,7 +51,7 @@ const UserController = {
     const updatedUserData = req.body;
 
     try {
-      validateEntity(updatedUserData);
+      validateEntity(updatedUserData, "user");
 
       let existingUsers = await readFile(filePath);
 

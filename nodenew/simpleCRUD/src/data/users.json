@@ -1,4 +1,5 @@
-[{
+[
+  {
     "id": 1,
     "name": "Ram",
     "age": 23,
@@ -11,5 +12,12 @@
     "age": 32,
     "email": "shyambdr@gmail.com",
     "phoneNumber": "98410077"
+  },
+  {
+    "id": 3,
+    "name": "Ram",
+    "age": 23,
+    "email": "rambdr@gmail.com",
+    "phoneNumber": "984100999"
   }
 ]

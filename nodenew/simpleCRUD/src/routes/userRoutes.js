@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require('../controllers/userController');
+require('dotenv').config();
 
-router.post('/', UserController.createUser);
+const environment = process.env.NODE_ENV ;
+
+const UserController = require(`../controllers/${environment}/userController`);
+
+router.post('/', UserController.createUser)
 router.get('/', UserController.getUser);
-router.put('/:id', UserController.updateUser);
+
+router.put('/:id', UserController.updateUser)
 router.delete('/:id', UserController.deleteUser);
 
 

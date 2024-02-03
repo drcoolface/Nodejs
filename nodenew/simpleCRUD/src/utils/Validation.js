@@ -1,76 +1,6 @@
 const fs = require('fs').promises;
-// const filePath = '../data/products.json'
+const {UserType, productType, OrderType} = require('./Types')
  
- const productType = {
-    id :{
-        type: Number,
-        required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    description: {
-        type: String | null,
-        required: false,
-    },
-    quantity:{
-        type: Number,
-        required : true,
-    },
-    product_type: {
-      type: String,
-      required: true,
-    },
-};
-
-const UserType = {
-  id :{
-      type: Number,
-      required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  age: {
-    type: Number,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: false,
-  },
-  phoneNumber:{
-      type: String,
-      required : true,
-  },
-};
-
-const OrderType = {
-  userId: {
-    type: Number,
-    required: true,
-  },
-  productId: {
-    type: Number,
-    required: true,
-  },
-  productQuantity:{
-    type: Number,
-    required : true,
-  },
-  totalPrice: {
-    type: Number,
-    required: true,
-  },
-  
-};
-
 const validateEntity = (entity, entityType) => {
   let typeDefinition;
   
@@ -104,11 +34,9 @@ const validateEntity = (entity, entityType) => {
   return true;
 }
 
-
 const doesEntityExist = (entities, entityId) => {
   return entities.some(entity => entity.id === entityId);
 };
-
 
 
 const readFile = async (filePath) => {
@@ -122,8 +50,12 @@ const readFile = async (filePath) => {
 };
 
 const writeFile =  async(data, filePath)=> {
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2));
 
+  try {
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (error) {
+    throw new Error('Error writing file', error);
+  }
 }
 module.exports = {validateEntity, doesEntityExist, readFile, writeFile}
 
