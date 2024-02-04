@@ -33,6 +33,10 @@ const ProductSchema = new Schema({
       type: String ,
       required: false,
   },
+  imageNames: {
+    type: [String] ,
+    required: false,
+},
   quantity:{
       type: Number,
       required : true,

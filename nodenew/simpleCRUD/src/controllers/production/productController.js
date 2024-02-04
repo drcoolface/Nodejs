@@ -3,6 +3,9 @@ const { Product } = require("../../models/model");
 const ProductController = {
     async createProduct(req, res) {
         const productData = req.body;
+        if (req.file) {
+            productData.imageNames = req.files.map(file => file.filename); // Store multiple filenames
+        }
         try {
           const product = await Product.create(productData);
           res.status(201).json({
@@ -58,6 +61,9 @@ const ProductController = {
     {
         const productId = req.params.id;
         const UpdatedProductdata = req.body
+        if (req.files) {
+            updatedProductData.imageNames = req.files.map(file => file.filename); // Update with multiple filenames
+        }
         try
         {
             const result = await Product.findByIdAndUpdate(productId, UpdatedProductdata, { new: true })
@@ -161,8 +167,35 @@ const ProductController = {
                 message: error.message
             });
         }
-    }
+    },
     
+    async addImagesToProduct(req, res) {
+        const productId = req.params.id;
+        
+        if (!req.files || req.files.length === 0) {
+          return res.status(400).json({ success: false, message: 'No images were uploaded.' });
+        }
+    
+        const imageNames = req.files.map(file => file.filename);
+    
+        try {
+          // Use $push combined with $each to add multiple images to the product's image array
+          const updatedProduct = await Product.findByIdAndUpdate(
+            productId,
+            { $push: { imageNames: { $each: imageNames } } },
+            { new: true }
+          );
+    
+          if (!updatedProduct) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+          }
+    
+          res.status(200).json({ success: true, message: "Images added successfully", data: updatedProduct });
+        } catch (error) {
+          console.error('Error adding images to product:', error);
+          res.status(500).json({ success: false, message: error.message });
+        }
+      }
 
 } 
 module.exports = ProductController

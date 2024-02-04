@@ -8,6 +8,9 @@ const ProductController = {
 
   async createProduct(req, res) {
     const productData = req.body;
+    if (req.body.imageNames) {
+      productData.imageNames = req.body.imageNames;
+  }
     try {
       validateEntity(productData, "product"); 
       const existingProducts = await readFile(filePath);
@@ -50,6 +53,10 @@ const ProductController = {
   async updateProduct(req, res) {
     const productId = parseInt(req.params.id);
     const updatedProductData = req.body;
+
+    if (req.body.imageNames) {
+      updatedProductData.imageNames = req.body.imageNames;
+  }
 
     try {
       validateEntity(updatedProductData, "product");
@@ -137,7 +144,32 @@ const ProductController = {
       console.error('Error reading the file:', error);
       res.status(500).send('Internal Server Error');
     }
-  }
+  },
+
+
+  async addImagesToProduct(req, res) {
+    const productId = parseInt(req.params.id);
+    const imageFilenames = req.body.imageNames; // Assuming this is an array of image filenames
+
+    try {
+      let products = await readFile(filePath);
+      const productIndex = products.findIndex(product => product.id === productId);
+
+      if (productIndex === -1) {
+        return res.status(404).send('Product not found');
+      }
+
+      // Assuming each product has an 'imageNames' array field
+      const product = products[productIndex];
+      product.imageNames = product.imageNames ? product.imageNames.concat(imageFilenames) : imageFilenames;
+
+      await writeFile(products, filePath);
+      res.status(200).send('Images added to product successfully');
+    } catch (error) {
+      console.error('Error adding images to product:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  },
 };
 
 module.exports = ProductController;
