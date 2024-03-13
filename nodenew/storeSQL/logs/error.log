@@ -1,0 +1,4 @@
+[2024-03-05T16:24:14.764Z]  error: Error creating tables:dwddd connect ECONNREFUSED ::1:5432
+[2024-03-05T16:51:56.732Z]  error: Error creating tables:dwddd connect ECONNREFUSED ::1:5432
+[2024-03-05T16:52:10.432Z]  error: Error creating tables:dwddd connect ECONNREFUSED ::1:5432
+[2024-03-06T08:27:21.874Z]  error: Error creating tables:dwddd connect ECONNREFUSED ::1:5432
