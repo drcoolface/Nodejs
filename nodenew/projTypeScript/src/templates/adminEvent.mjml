@@ -1,0 +1,16 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <!-- Greeting and introduction -->
+        <mj-text font-size="20px">Today's Events</mj-text>
+
+        <!-- Placeholder for dynamically inserted event details -->
+        <!--eventsPlaceholder-->
+
+        <mj-text font-size="16px"> Best regards, </mj-text>
+        <mj-text font-size="16px"> The Event Organizer Team </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -14,7 +14,7 @@
 
 
     "allowJs": true,                                     /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
-    "outDir": "build",                                   /* Specify an output folder for all emitted files. */
+    "outDir": "./dist",                                   /* Specify an output folder for all emitted files. */
     
 
     "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
@@ -26,5 +26,12 @@
 
 
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  }
+  },
+  "include": [
+    "src/**/*" // Include all files in the source directory
+  ],
+  "exclude": [
+    "node_modules", // Exclude the node_modules directory
+    "dist" // Exclude the dist directory
+  ]
 }

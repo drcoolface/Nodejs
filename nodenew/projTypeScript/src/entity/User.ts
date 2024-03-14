@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, } from "typeorm";
 import { Event } from "./Event";
-
+import { Registration } from "./Registration";
 
 export enum Role {
     User = "USER",
@@ -29,6 +29,16 @@ export class User {
     })
     role!: Role;
 
-    @OneToMany(() => Event, events => events.organizer)
+    @OneToMany(() => Event, events => events.organizer,{
+        cascade: true,
+        onDelete: "CASCADE"
+    })
     events!: Event[];
+
+    @OneToMany(() => Registration, registration => registration.user,
+    {
+        cascade: true,
+        onDelete: "CASCADE"
+    })
+    registrations!: Registration[];
 }

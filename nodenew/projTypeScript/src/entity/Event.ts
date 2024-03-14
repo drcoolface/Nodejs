@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { User } from "./User";
-
+import { Registration } from "./Registration";
 @Entity()
 export class Event {
     @PrimaryGeneratedColumn()
@@ -21,6 +21,18 @@ export class Event {
     @Column('decimal')
     price!: number;
 
-    @ManyToOne(() => User, user => user.events)
+    @Column({ type: 'date', default: () => "CURRENT_DATE" }) // Or a specific date '2023-01-01'
+date!: Date;
+
+    @ManyToOne(() => User, user => user.events,
+    )
     organizer!: User;
+
+    @OneToMany(() => Registration, registration => registration.event,
+    {
+        cascade: true,
+        onDelete: "CASCADE"
+    })
+    registrations!: Registration[];
+
 }

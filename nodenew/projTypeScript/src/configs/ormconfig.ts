@@ -2,6 +2,7 @@ import { DataSource } from "typeorm";
 import dotenv from "dotenv";
 import { User } from "../entity/User";
 import { Event } from "../entity/Event";
+import { Registration } from "../entity/Registration";
 import path = require("path");
 
 dotenv.config();
@@ -13,17 +14,22 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME ,
   password: process.env.DB_PASSWORD ,
   database: process.env.DB_DATABASE ,
-  synchronize: false, // Ensure boolean true/false
-  logging: process.env.TYPEORM_LOGGING === "true", // Ensure boolean true/false
+  synchronize: true, // Ensure boolean true/false
+  logging: true, // Ensure boolean true/false
   entities: [
    User,
-   Event
+   Event,
+   Registration
   ],
   migrations: 
-  [path.join(__dirname, '../migration/**/*{.ts,.js}')],
+  [  
+    path.join(__dirname, "migrations/**/*.ts")],
+    
 
   subscribers: [
   ],
+
+  
 });
 
 export default AppDataSource;

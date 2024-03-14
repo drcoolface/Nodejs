@@ -5,14 +5,48 @@ const eventRepository = AppDataSource.getRepository(Event);
 
 export const EventController = {
     findAll: async (req: Request, res: Response) => {
-        const events = await eventRepository.find();
-        res.json(events);
+        // Use find options to load the 'organizer' relation
+        const events = await eventRepository.find({ relations: ["organizer"] });
+        
+        // Optionally, map over events to customize the response format
+        const response = events.map(event => ({
+            id: event.id,
+            title: event.title,
+            description: event.description,
+            thumbnail: event.thumbnail,
+            seats: event.seats,
+            price: event.price,
+            date: event.date,
+            organizerName: event.organizer?.name // Safely access the name with optional chaining
+        }));
+    
+        res.json(response);
     },
     
     findOne: async (req: Request, res: Response) => {
-        const event = await eventRepository.findOneBy({ id: parseInt(req.params.id) });
+        const eventId = parseInt(req.params.id);
+        // Use findOne options to load the 'organizer' relation
+        const event = await eventRepository.findOne({
+            where: { id: eventId },
+            relations: ["organizer"]
+        });        
+
+        const response = {
+            id: event?.id,
+            title: event?.title,
+            description: event?.description,
+            thumbnail: event?.thumbnail,
+            seats: event?.seats,
+            price: event?.price,
+            date: event?.date,
+            organizerName: event?.organizer?.name // Safely access the name with optional chaining
+        };
+
+
         if (!event) return res.status(404).json({ message: 'Event not found' });
-        res.json(event);
+
+        
+        res.json(response);
     },
     
     create: async (req: Request, res: Response) => {
