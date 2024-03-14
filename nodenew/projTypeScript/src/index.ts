@@ -10,12 +10,19 @@ import { EmailService } from "./services/EmailService";
 
 dotenv.config();
 
-cron.schedule('* 1 * * *', async () => {
-  console.log('Running task to send today\'s events digest to admin...');
-  await EmailService.sendTodaysEvents();
+const cronSchedule: string | undefined = process.env.CRON_SCHEDULE;
+
+if (!cronSchedule) {
+    console.error('CRON_SCHEDULE is not defined in the .env file.');
+    process.exit(1);
+}
+
+cron.schedule(cronSchedule, async () => {
+    console.log('Executing scheduled task...');
+    await EmailService.sendTodaysEvents(); 
 }, {
-  scheduled: true,
-  timezone: "Asia/Kathmandu" 
+    scheduled: true,
+    timezone: "Asia/Kathmandu" 
 });
 
 

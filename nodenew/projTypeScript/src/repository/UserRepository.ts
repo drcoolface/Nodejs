@@ -5,6 +5,7 @@ import { Event } from '../entity/Event';
 import { Registration } from '../entity/Registration';
 import { EmailService } from '../services/EmailService'; 
 
+import { infoLogger, errorLogger } from '../configs/logger';
 
 
 const userRepository = AppDataSource.getRepository(User);
@@ -92,7 +93,7 @@ export const UserController = {
             if (isAlreadyRegistered) {
                 return res.status(400).json({ message: 'User is already registered for this event.' });
             }
-            
+
             const registration = new Registration();
             registration.user = user;
             registration.event = event;
@@ -108,6 +109,48 @@ export const UserController = {
                 errorMessage = error.message;
             }
             console.error(errorMessage);
+        }
+    },
+
+    deregisterUserFromEvent : async (req: Request, res: Response) => {
+        const userId = parseInt(req.params.userId);
+        const eventId = parseInt(req.params.eventId);
+    
+        try {
+            const registrationRepository = AppDataSource.getRepository(Registration);
+    
+            // Fetch the registration along with user and event details
+            const registration = await registrationRepository.findOne({
+                where: {
+                    user: { id: userId },
+                    event: { id: eventId }
+                },
+                relations: ['user', 'event'], // Include user and event in the response
+            });
+    
+            if (!registration) {
+                return res.status(404).json({ message: 'Registration not found.' });
+            }
+    
+            // Extract the user's name and event's title for logging
+            const { user, event } = registration;
+            const userName = user.name;
+            const eventName = event.title;
+    
+            // Proceed with deregistration
+            await registrationRepository.remove(registration);
+            infoLogger.info(`User ${userName} deregistered from event ${eventName} successfully.`);
+            
+            // Respond with success message including user's name and event's title
+            return res.status(200).json({ message: `User ${userName} deregistered from ${eventName} successfully.` });
+        } catch (error) {
+            let errorMessage = 'An unknown error occurred during deregistration.';
+            if (error instanceof Error) {
+                errorMessage = error.message;
+                errorLogger.error(errorMessage);
+            }
+            console.error(errorMessage);
+            return res.status(500).json({ message: errorMessage });
         }
     }
 };

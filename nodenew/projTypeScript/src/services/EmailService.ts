@@ -6,10 +6,13 @@ import { startOfDay, endOfDay, format } from 'date-fns';
 import AppDataSource from '../configs/ormconfig';
 import { Event } from '../entity/Event';
 import dotenv from 'dotenv';
+import { infoLogger, errorLogger } from '../configs/logger';
+
 dotenv.config();
 export class EmailService 
 {
     static async sendRegistrationConfirmation(userEmail: string, userName: string, eventName: string): Promise<void> {
+      try{  
         const templatePath = path.join(__dirname, '../templates/regConfirm.mjml');
         let template = fs.readFileSync(templatePath, 'utf-8');
 
@@ -24,8 +27,16 @@ export class EmailService
             subject: 'Event Registration Confirmation',
             html: html,
         });
+
+        infoLogger.info(`Registration confirmation email sent to ${userEmail} for event: ${eventName}`);
+    }catch(error){
+        errorLogger.error(`Error sending registration confirmation email to ${userEmail}: ${error}`);
+
+    }
+
     }
     static async sendTodaysEvents(): Promise<void> {
+        try{
         const todayStart = startOfDay(new Date());
         const todayEnd = endOfDay(new Date());
 
@@ -47,8 +58,7 @@ export class EmailService
             `<mj-text font-size="16px">${event?.title} - ${format(event.date, 'yyyy-MM-dd')}</mj-text>`
         ).join('<mj-text>-----</mj-text>');
 
-        // Replace the placeholder in the template with the actual events details
-        template = template.replace('<!--eventsPlaceholder-->', eventsDetails);
+      template = template.replace('<!--eventsPlaceholder-->', eventsDetails);
 
         const { html } = mjml2html(template);
 
@@ -58,6 +68,12 @@ export class EmailService
             subject: "Today's Events",
             html: html,
         });
+        infoLogger.info("Today's events email sent successfully.");
+
+    }catch(error){
+        errorLogger.error(`Error sending today's events email: ${error}`);
+
+    }
     }
 }
     
